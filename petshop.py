@@ -8,7 +8,6 @@ cannot select which specific animal they would like. Create the data structures
 to maintain this system and implement operations such as enqueue, dequeue,
 dequeueDog and dequeueCat. You use the built-in LinkedList data structure.
 """
-import random
 import time
 
 class Animal(object):
@@ -16,7 +15,7 @@ class Animal(object):
 
   def __init__(self):
     """A simple container for a new Animal."""
-    self.age = time.ctime()
+    self.age = time.time()
 
 class Dog(Animal):
   """Doc string for a new Dog Class."""
@@ -53,7 +52,8 @@ class ShelterQueue(object):
       animal: (obj) Cat or Dog
     """
     animal = self.start
-    self.start = self.start.next
+    if self.end is not self.start:
+      self.start = self.start.next
     return animal
 
   def ListAnimals(self):
@@ -64,20 +64,36 @@ class ShelterQueue(object):
       node = head.next
 
   def PeekAnimal(self):
-    """Look at the head of the queue, but don't modify the queue.
+    """Check the age of the first animal, but don't modify the queue.
     
     Returns:
-      head: (str) type of the animal
+      age: (str) type of the animal
     """
-    return self.start.__class__.__name__
+    return self.start.age
+
+def GetOldestAnimal(catqueue, dogqueue):
+  """Retrieve the oldest animal from either queue, regardless of type.
+  
+  Args:
+    catqueue: (ShelterQueue obj)
+    dogqueue: (ShelterQueue obj)
+
+  Returns:
+    (Cat or Dog obj) 
+  """
+  if catqueue.PeekAnimal() < dogqueue.PeekAnimal():
+    return catqueue.GetAnimal()
+  return dogqueue.GetAnimal()
 
 # Sanity checks.
 cats = ShelterQueue()
 dogs = ShelterQueue()
 a = Cat()
+time.sleep(0.1)
 b = Dog()
 cats.GiveAnimal(a)
 print cats.PeekAnimal()
 dogs.GiveAnimal(b)
 print dogs.PeekAnimal()
+print GetOldestAnimal(cats, dogs).__class__.__name__
 
