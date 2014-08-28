@@ -11,81 +11,73 @@ dequeueDog and dequeueCat. You use the built-in LinkedList data structure.
 import random
 import time
 
-class Node(object):
-  """Doc string for a new Node Class."""
+class Animal(object):
+  """Doc string for a new Animal Class."""
 
-  def __init__(self, animal):
-    "A simple container for a new Node."""
-    self.animal = animal
-    self.next = None
+  def __init__(self):
+    """A simple container for a new Animal."""
     self.age = time.ctime()
 
-class LinkedList(object):
-  """Doc string for a new LinkedList Class."""
+class Dog(Animal):
+  """Doc string for a new Dog Class."""
+  pass
+
+class Cat(Animal):
+  """Doc string for a new Cat Class."""
+  pass
+
+class ShelterQueue(object):
+  """Doc string for a new Shelter Class."""
 
   def __init__(self):
     """Initializes a new LinkedList."""
     self.start = None
     self.end = None
 
-  def Enqueue(self, Node):
-    """Adds a new Node to the end of the LinkedList."""
-    if self.start == None:
-      self.start = Node
-    else:
-      self.end.next = Node
-    self.end = Node
+  def GiveAnimal(self, animal):
+    """Adds a new animal to the end of the ShelterQueue.
 
-  def Dequeue_any(self):
-    """Removes the first node from the start of the LinkedList.
+    Args:
+      animal: (obj) Cat or Dog
+    """
+    if self.start == None:
+      self.start = animal
+    else:
+      self.end.next = animal
+    self.end = animal
+
+  def GetAnimal(self):
+    """Removes the first animal from the start of the ShelterQueue.
 
     Returns:
-      node.animal: (str) type of animal that the node contained
+      animal: (obj) Cat or Dog
     """
-    node = self.start
+    animal = self.start
     self.start = self.start.next
-    return node.animal
+    return animal
 
-  def Loop(self):
-    node = self.start
+  def ListAnimals(self):
+    """Iterates through the queue of animals and prints animal type and age."""
+    head = self.start
     while node:
-      print node.animal, node.age
-      node = node.next
+      print head.animal, head.age
+      node = head.next
 
-def OldestAnimal(catlist, doglist):
-  """Checks the age of the animal at the start of two lists.
+  def PeekAnimal(self):
+    """Look at the head of the queue, but don't modify the queue.
+    
+    Returns:
+      head: (str) type of the animal
+    """
+    return self.start.__class__.__name__
 
-  Args:
-    catlist: (LinkedList obj) first list object 
-    doglist: (LinkedList obj) other list object
-
-  Returns:
-    result.animal: (str) String specifying the type of the oldest animal
-  """
-
-  if catlist.start.age < doglist.start.age:
-    result = catlist.Dequeue_any()
-    return result.animal
-  elif catlist.start.age > doglist.start.age:
-    result = doglist.Dequeue_any()
-    return result.animal
-  else:
-    all_animals = [catlist, doglist]
-    random_animal = random.choice(all_animals)
-    result = random_animal.Dequeue_any()
-    return result.animal
-
-
-# Useful sanity checks can be quickly checked by importing the module in REPL
-catlist = LinkedList()
-doglist = LinkedList()
-catlist.Enqueue(Node('cat1'))
-doglist.Enqueue(Node('dog1'))
-doglist.Enqueue(Node('dog2'))
-catlist.Enqueue(Node('cat2'))
-catlist.Loop()
-doglist.Loop()
-print OlddestAnimal(catlist, doglist)
-
-
+# Sanity checks.
+cats = ShelterQueue()
+dogs = ShelterQueue()
+a = Cat()
+b = Dog()
+cats.GiveAnimal(a)
+print cats.PeekAnimal()
+dogs.GiveAnimal(b)
+print dogs.PeekAnimal()
 
