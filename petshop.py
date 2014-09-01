@@ -17,23 +17,67 @@ class Animal(object):
     """A simple container for a new Animal."""
     self.age = time.time()
 
+
 class Dog(Animal):
   """Doc string for a new Dog Class."""
   pass
+
 
 class Cat(Animal):
   """Doc string for a new Cat Class."""
   pass
 
-class ShelterQueue(object):
+
+class Shelter(object):
   """Doc string for a new Shelter Class."""
 
   def __init__(self):
-    """Initializes a new LinkedList."""
+    """Initializes a new Queue."""
+    self.catqueue = Queue()
+    self.dogqueue = Queue()
+
+  def GiveAnimal(self, animal):
+    """Adds a new animal to the Shelter.
+
+    Args:
+      animal: (obj) Cat or Dog
+    """
+    if isinstance(animal, Cat):
+      self.catqueue.PutAnimal(animal)
+    else:
+      self.dogqueue.PutAnimal(animal)
+
+  def GetAnyAnimal(self, animal):
+    """Removies an animal from the Shelter.
+
+    Args:
+      animal: (str) string specifying a Cat or a Dog
+    """
+    if animal == 'cat':
+      return self.catqueue.GetAnimal()
+    else:
+      return self.dogqueue.GetAnimal()
+
+  def GetOldestAnimal(self):
+    """Retrieve the oldest animal from either queue, regardless of type.
+
+    Returns:
+      (Cat or Dog obj) 
+    """
+    if self.catqueue.PeekAnimal() < self.dogqueue.PeekAnimal():
+      return self.catqueue.GetAnimal()
+    return self.dogqueue.GetAnimal()
+
+
+class Queue(object):
+  """Doc string for a new Queue Class."""
+
+  def __init__(self):
+    """Initializes a new Queue."""
     self.start = None
     self.end = None
 
-  def GiveAnimal(self, animal):
+  def PutAnimal(self, animal):
     """Adds a new animal to the end of the ShelterQueue.
 
     Args:
@@ -56,44 +100,23 @@ class ShelterQueue(object):
       self.start = self.start.next
     return animal
 
-  def ListAnimals(self):
-    """Iterates through the queue of animals and prints animal type and age."""
-    head = self.start
-    while node:
-      print head.animal, head.age
-      node = head.next
-
   def PeekAnimal(self):
     """Check the age of the first animal, but don't modify the queue.
     
     Returns:
-      age: (str) type of the animal
+      age: (str) age of the animal
     """
     return self.start.age
 
-def GetOldestAnimal(catqueue, dogqueue):
-  """Retrieve the oldest animal from either queue, regardless of type.
-  
-  Args:
-    catqueue: (ShelterQueue obj)
-    dogqueue: (ShelterQueue obj)
-
-  Returns:
-    (Cat or Dog obj) 
-  """
-  if catqueue.PeekAnimal() < dogqueue.PeekAnimal():
-    return catqueue.GetAnimal()
-  return dogqueue.GetAnimal()
-
-# Sanity checks.
-cats = ShelterQueue()
-dogs = ShelterQueue()
-a = Cat()
+# Sanity Checks
+shelter = Shelter()
+c1 = Cat()
+d1 = Dog()
 time.sleep(0.1)
-b = Dog()
-cats.GiveAnimal(a)
-print cats.PeekAnimal()
-dogs.GiveAnimal(b)
-print dogs.PeekAnimal()
-print GetOldestAnimal(cats, dogs).__class__.__name__
-
+c2 = Cat()
+d2 = Dog()
+shelter.GiveAnimal(c1)
+shelter.GiveAnimal(c2)
+shelter.GiveAnimal(d1)
+shelter.GiveAnimal(d2)
+print shelter.GetOldestAnimal()
