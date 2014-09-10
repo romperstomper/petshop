@@ -1,18 +1,13 @@
-
 import os
-def walkdirs(a, beenthere=[], result=[]):
-  beenthere.append(a)
+
+def gen_walkdirs(a):
   for elem in os.listdir(a):
-    if os.path.isdir(elem) and elem not in beenthere:
-      walkdirs(a + '/' + elem)
+    if os.path.isdir(elem):
+      gen_walkdirs(a + '/' + elem)
 #    elif not elem.endswith('.mp3'):
 #      continue
-    result.append(os.path.getsize(a + '/' + elem))
+    print 'elem is %s' % os.path.getsize(elem)
+    yield os.path.getsize(elem)
 
-  print sum(result)/55000000.0 #128kbps is approx 55MB per hour
-
-
-
-
-
-walkdirs('/usr/local/google/home/gboland')
+p = '/usr/local/google/home/gboland'
+print sum(i for i in gen_walkdirs(p))
