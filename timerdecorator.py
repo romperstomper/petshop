@@ -1,21 +1,21 @@
 import time
 from functools import wraps
 
-def mydecorator(func):
+def mytimer(func):
   @wraps(func)
   def wrapper(*args):
     current = time.time()
-    func(*args)
+    res = func(*args)
     elapsed = time.time() - current
-    return func.__name__, elapsed
+    return func.__name__, elapsed, res
   return wrapper
 
-@mydecorator
+@mytimer
 def moo():
   with open('/etc/passwd') as fd:
     pass
 
-@mydecorator
+@mytimer
 def cow():
   with open('/etc/passwd') as fd:
     pass
