@@ -18,9 +18,22 @@ class TestArrayFlatten(unittest.TestCase):
     result = arrayflatten.nested(testlist)
     self.assertNotEqual(expected, result)
 
+  def test_empty_target_pass(self):
+    testlist = []
+    expected = []
+    result = arrayflatten.nested(testlist)
+    self.assertEqual(expected, result)
+
+  def test_nested_empty_target_pass(self):
+    testlist = [[], [[]]]
+    expected = []
+    result = arrayflatten.nested(testlist)
+    self.assertEqual(expected, result)
+
+  def test_bad_target_raise(self):
+    with self.assertRaises(TypeError):
+      arrayflatten(['', None])
+
 
 if __name__ == '__main__':
   unittest.main()
-
-
-
