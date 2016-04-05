@@ -1,6 +1,6 @@
 """Flatten an array of arbitrarily nested arrays.
-   Array elements will be integers and nested arrays. Result in a flat array.
-   E.g. [[1,2,[3]],4] -> [1,2,3,4]."""
+Array elements will be integers and nested arrays. Result in a flat array.
+E.g. [[1,2,[3]],4] -> [1,2,3,4]."""
 
 
 def flatten(target_list):
